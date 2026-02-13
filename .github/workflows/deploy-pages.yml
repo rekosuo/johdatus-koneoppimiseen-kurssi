@@ -3,7 +3,7 @@ name: Deploy Pages
 on:
   push:
     branches:
-      - main   # change if your default branch is different
+      - main   # adjust if your default branch is different
 
 permissions:
   contents: read
@@ -21,14 +21,14 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: Install docs dependencies
+      - name: Sync docs dependencies
         run: uv sync --directory docs
 
       - name: Build MkDocs site
         run: uv run --directory docs mkdocs build --strict --verbose --site-dir ../public
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
@@ -37,9 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy-to-pages.outputs.page_url }}
 
     steps:
-      - name: Deploy to Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: Deploy to GitHub Pages
+        id: deploy-to-pages
+        uses: actions/deploy-pages@v4
