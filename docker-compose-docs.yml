@@ -1,0 +1,15 @@
+name: "johdatus-koneoppimiseen-2025-yiwfxd-mkdocs"
+
+services:
+  mkdocs:
+    container_name: "yiwfxd-container"
+    build:
+      context: .
+      dockerfile: docs.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docs:/docs
+      - /docs/.venv # Avoid mounting the venv to the host
+    working_dir: /docs
+    command: ["uv", "run", "--no-sync", "mkdocs", "serve", "--dev-addr=0.0.0.0:8000", "--watch=docs"]
