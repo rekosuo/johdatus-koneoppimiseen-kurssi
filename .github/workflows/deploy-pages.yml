@@ -13,13 +13,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/astral-sh/uv:python3.12-bookworm
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Install uv
-        run: pip install uv
 
       - name: Sync docs dependencies
         run: uv sync --directory docs
